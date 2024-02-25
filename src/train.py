@@ -53,7 +53,7 @@ class ProjectAgent(Agent):
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.001)
         self.loss_fn = nn.MSELoss()
         self.epsilon = 1.0
-        self.epsilon_decay = 0.99
+        self.epsilon_decay = 0.995
         self.epsilon_min = 0.02
         self.action_dim = 4
         self.replay_buffer_capacity = 1e6
@@ -99,7 +99,7 @@ class ProjectAgent(Agent):
     def load(self):
         self.model.load_state_dict(torch.load(os.getcwd() +'/src/model.pth'))
         
-def train_agent(agent, env, nb_episodes=1000, initial_steps=100):
+def train_agent(agent, env, nb_episodes=1500, initial_steps=5000):
     for _ in range(initial_steps):
         state = env.reset()[0]
         action = agent.act(state, use_random=True)
@@ -142,4 +142,5 @@ for experience in experiences:
 """
 
 agent = ProjectAgent()
-train_agent(agent, env)
+if __name__ == "__main__":
+    train_agent(agent, env)
