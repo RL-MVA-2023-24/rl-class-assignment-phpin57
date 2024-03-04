@@ -41,19 +41,21 @@ class ReplayBuffer:
 class QNetwork(nn.Module):
     def __init__(self, state_dim, action_dim):
         super(QNetwork, self).__init__()
-        self.hidden_size = 256
+        self.hidden_size=512
         self.fc1 = nn.Linear(state_dim, self.hidden_size)
         self.fc2 = nn.Linear(self.hidden_size, self.hidden_size)
         self.fc3 = nn.Linear(self.hidden_size, self.hidden_size)
         self.fc4 = nn.Linear(self.hidden_size, self.hidden_size)
-        self.fc5 = nn.Linear(self.hidden_size, action_dim)
+        self.fc5 = nn.Linear(self.hidden_size, self.hidden_size)
+        self.fc6 = nn.Linear(self.hidden_size, action_dim)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
         x = torch.relu(self.fc3(x))
         x = torch.relu(self.fc4(x))
-        return self.fc5(x)
+        x = torch.relu(self.fc5(x))
+        return self.fc6(x)
 
 
 class ProjectAgent(Agent):
